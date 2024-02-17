@@ -16,13 +16,14 @@ class Command(BaseCommand):
         clients = Client.objects.all()
         products = Product.objects.all()
         for i in range(1, count + 1):
-            client = clients[random.randint(1, len(clients) - 1)]
+            client = random.choice(clients)
             order = Order(client=client, amount=0)
             order.save()
             for _ in range(1, count + 1):
-                product = products[random.randint(1, len(products) - 1)]
-                print(product)
-                order.products.add(product)
-                order.amount += product.price
-                order.save()
+                product = random.choice(products)
+                if product.quantity > 0:
+                    order.products.add(product)
+                    order.amount += product.price
+                    product.quantity -= 1
+                    order.save()
             self.stdout.write(f'{order}')
