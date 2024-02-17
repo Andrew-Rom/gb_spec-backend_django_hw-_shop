@@ -16,7 +16,7 @@ class Command(BaseCommand):
         clients = Client.objects.all()
         products = Product.objects.all()
         for i in range(1, count + 1):
-            client = clients[random.randint(1, len(clients) - 1)]
+            client = random.choice(clients)
             order = Order(client=client, amount=0)
             order.save()
             for _ in range(1, count + 1):
