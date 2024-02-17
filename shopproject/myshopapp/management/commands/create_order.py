@@ -20,7 +20,7 @@ class Command(BaseCommand):
             order = Order(client=client, amount=0)
             order.save()
             for _ in range(1, count + 1):
-                product = products[random.randint(1, len(products) - 1)]
+                product = random.choice(products)
                 print(product)
                 order.products.add(product)
                 order.amount += product.price
