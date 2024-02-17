@@ -25,5 +25,6 @@ class Command(BaseCommand):
                     order.products.add(product)
                     order.amount += product.price
                     product.quantity -= 1
+                    product.save()
                     order.save()
             self.stdout.write(f'{order}')
