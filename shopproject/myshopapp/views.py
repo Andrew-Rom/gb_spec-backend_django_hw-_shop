@@ -1,6 +1,10 @@
+from datetime import timedelta, date
+from sys import stdout
+
 from django.shortcuts import render
-from django.http import HttpResponse
 import logging
+
+from myshopapp.models import Client, Order
 
 logger = logging.getLogger(__name__)
 
@@ -16,23 +20,51 @@ def log_this(f):
 
 @log_this
 def index(request):
-    html = """
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>My Shop - main page</title>
-        </head>
-        <body>
-            <h2 style="text-align: center; color: chocolate; text-transform: uppercase;">Main page</h2>
-            <h1>This is my first django project</h1>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                Nobis reprehenderit laudantium quam soluta minus aut nihil assumenda quibusdam tempore magni. 
-                Molestias ad commodi eligendi suscipit aperiam facilis a veritatis delectus.
-            </p>
-            <a style="text-decoration: none;" href="/about">Link to About page</a>
-        </body>
-    </html>
-    """
-    return HttpResponse(html)
+    return render(request, "myshopapp/index.html")
+
+
+@log_this
+def task3(request):
+    return render(request, "myshopapp/task3.html")
+
+
+@log_this
+def client_orders(request, client_id: int):
+    client = Client.objects.filter(pk=client_id).first()
+    orders = Order.objects.filter(client__pk=client_id)
+    content = {"client": client,
+               "orders": []}
+    for order in orders:
+        products = order.products.all()
+        content["orders"].append({"date": order.order_date,
+                                  "amount": order.amount,
+                                  "products": products})
+    return render(request, "myshopapp/client_orders.html", content)
+
+
+@log_this
+def client_products(request, client_id: int):
+    today = date.today()
+    week = today - timedelta(1)
+    month = today - timedelta(30)
+    year = today - timedelta(365)
+
+    client = Client.objects.filter(pk=client_id).first()
+
+    week_orders = (Order.objects.filter(client__pk=client_id)
+                   & Order.objects.filter(order_date__range=(week, today)).order_by("-order_date"))
+    month_orders = (Order.objects.filter(client__pk=client_id)
+                    & Order.objects.filter(order_date__range=(month, week)).order_by("-order_date"))
+    year_orders = (Order.objects.filter(client__pk=client_id)
+                   & Order.objects.filter(order_date__range=(year, month)).order_by("-order_date"))
+
+    week_product_list = [product for order in week_orders for product in order.products.all()]
+    month_product_list = [product for order in month_orders for product in order.products.all()]
+    year_product_list = [product for order in year_orders for product in order.products.all()]
+
+    content = {"client": client,
+               "week_product_list": week_product_list,
+               "month_product_list": month_product_list,
+               "year_product_list": year_product_list}
+
+    return render(request, "myshopapp/client_products.html", content)

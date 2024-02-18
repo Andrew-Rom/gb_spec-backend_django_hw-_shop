@@ -14,15 +14,17 @@
             Page title
             {% endblock %}
         </title>
+        {% block my_script %}
+        {% endblock %}
     </head>
     <body>
         <nav class="main_menu">
             <ul class="main_menu__ul">
                 <li>
-                    <a class="main_menu__link" href="/index.html/">Главная</a>
+                    <a class="main_menu__link" href="/index/">Главная</a>
                 </li>
                 <li>
-                    <a class="main_menu__link" href="/about.html/">Обо мне</a>
+                    <a class="main_menu__link" href="/task3/">Задание 3</a>
                 </li>
             </ul>
         </nav>
@@ -42,7 +44,7 @@
         </content>
         <footer class="footer">
             <div class="footer-box">
-                <p class="copyright_text">© 2024 Задания по 3 семинару.</p>
+                <p class="copyright_text">© 2024 Задания по курсу Фреймворк Django.</p>
             </div>
         </footer>
     </body>
