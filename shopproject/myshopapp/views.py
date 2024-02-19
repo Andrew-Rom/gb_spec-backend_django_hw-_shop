@@ -45,7 +45,7 @@ def client_orders(request, client_id: int):
 @log_this
 def client_products(request, client_id: int):
     today = date.today()
-    week = today - timedelta(1)
+    week = today - timedelta(7)
     month = today - timedelta(30)
     year = today - timedelta(365)
 
