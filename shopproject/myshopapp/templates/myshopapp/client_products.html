@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Shop - lesson 3
+{% endblock %}
+
+{% block header %}
+{% if client != null %}
+Клиент: {{ client.name }}, email: {{ client.email }}
+{% else %}
+Клиент с указанным ID отсутствует
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if client != null %}
+<div class="content-box">
+    <div>Список товаров, заказанных за последние 7 дней:
+        <ul>
+            {% for item in week_product_list %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>Список товаров, заказанных за последние 30 дней:
+        <ul>
+            {% for item in month_product_list %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>Список товаров, заказанных за последний год:
+        <ul>
+            {% for item in year_product_list %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<a href="/task3/" class="btn">Назад</a>
+{% else %}
+<a href="/task3/" class="btn">Назад</a>
+{% endif %}
+{% endblock %}

@@ -21,8 +21,10 @@ class Command(BaseCommand):
             order.save()
             for _ in range(1, count + 1):
                 product = random.choice(products)
-                print(product)
-                order.products.add(product)
-                order.amount += product.price
-                order.save()
+                if product.quantity > 0:
+                    order.products.add(product)
+                    order.amount += product.price
+                    product.quantity -= 1
+                    product.save()
+                    order.save()
             self.stdout.write(f'{order}')

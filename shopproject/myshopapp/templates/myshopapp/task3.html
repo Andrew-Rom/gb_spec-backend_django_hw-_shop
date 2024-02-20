@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+My Shop - lesson 3
+{% endblock %}
+
+{% block my_script %}
+<script type="text/javascript" src="{% static 'js/getLinkByIdScript.js' %}" defer></script>
+{% endblock %}
+
+{% block header %}
+Урок 3. Работа с представлениями и шаблонами
+{% endblock %}
+
+{% block content %}
+<p class="subtitle">Задание</p>
+<div class="content-box">
+    <p>Создайте шаблон для вывода всех заказов клиента и списком товаров внутри каждого заказа.</p>
+    <p>Подготовьте необходимый маршрут и представление.</p>
+    <p>Создайте шаблон, который выводит список заказанных клиентом товаров из всех
+        его заказов с сортировкой по времени:</p>
+    <ul>
+        <li>за последние 7 дней (неделю)</li>
+        <li>за последние 30 дней (месяц)</li>
+        <li>за последние 365 дней (год)</li>
+    </ul>
+    <p>Товары в списке не должны повторятся.</p>
+</div>
+<p class="subtitle">Решение</p>
+<div class="task_solution">
+    <div class="client_orders">
+        <h5>Получение списка заказов клиента</h5>
+        <label class="client_orders__label" for="client_orders__input">Введите идентификатор (ID) клиента:</label>
+        <input class="client_orders__input" name="client_orders__input" id="client_orders__input"></input>
+        <a href="" class="client_orders__button">Получить список заказов</a>
+    </div>
+    <div class="client_products">
+        <h5>Получение списка товаров клиента</h5>
+        <label class="client_products__label" for="client_products__input">Введите идентификатор (ID) клиента:</label>
+        <input class="client_products__input" name="client_products__input" id="client_products__input"></input>
+        <a href="" class="client_products__button">Получить список товаров</a>
+    </div>
+</div>
+{% endblock %}

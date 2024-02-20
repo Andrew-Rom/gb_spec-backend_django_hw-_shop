@@ -21,7 +21,7 @@ class Product(models.Model):
     entry_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'Product: {self.title}'
+        return f'{self.title} - {self.price}'
 
 
 class Order(models.Model):

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Shop - lesson 3
+{% endblock %}
+
+{% block header %}
+{% if client != null %}
+Клиент: {{ client.name }}, email: {{ client.email }}
+{% else %}
+Клиент с указанным ID отсутствует
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if client != null %}
+{% for item in orders %}
+<div class="content-box">
+    <div>Дата заказа: {{ item.date }}</div>
+    <div>Состав заказа:
+        <ul>
+            {% for product in item.products %}
+            <li>{{ product }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>Сумма заказа: {{ item.amount }}</div>
+</div>
+{% endfor %}
+<a href="/task3/" class="btn">Назад</a>
+{% else %}
+<a href="/task3/" class="btn">Назад</a>
+{% endif %}
+{% endblock %}
