@@ -55,9 +55,9 @@ def client_products(request, client_id: int):
     month_orders = Order.objects.filter(client=client, order_date__gte=month)
     year_orders = Order.objects.filter(client=client, order_date__gte=year)
 
-    week_product_list = [product for order in week_orders for product in order.products.all()]
-    month_product_list = [product for order in month_orders for product in order.products.all()]
-    year_product_list = [product for order in year_orders for product in order.products.all()]
+    week_product_list = {product for order in week_orders for product in order.products.all()}
+    month_product_list = {product for order in month_orders for product in order.products.all()}
+    year_product_list = {product for order in year_orders for product in order.products.all()}
 
     content = {"client": client,
                "week_product_list": week_product_list,
