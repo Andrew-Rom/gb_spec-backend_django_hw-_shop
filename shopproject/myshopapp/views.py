@@ -49,14 +49,11 @@ def client_products(request, client_id: int):
     month = today - timedelta(30)
     year = today - timedelta(365)
 
-    client = Client.objects.filter(pk=client_id).first()
+    client = Client.objects.get(pk=client_id).
 
-    week_orders = (Order.objects.filter(client__pk=client_id)
-                   & Order.objects.filter(order_date__range=(week, today)).order_by("-order_date"))
-    month_orders = (Order.objects.filter(client__pk=client_id)
-                    & Order.objects.filter(order_date__range=(month, week)).order_by("-order_date"))
-    year_orders = (Order.objects.filter(client__pk=client_id)
-                   & Order.objects.filter(order_date__range=(year, month)).order_by("-order_date"))
+    week_orders = Order.objects.filter(client=client, order_date__gte=week)
+    month_orders = Order.objects.filter(client=client, order_date__gte=month)
+    year_orders = Order.objects.filter(client=client, order_date__gte=year)
 
     week_product_list = [product for order in week_orders for product in order.products.all()]
     month_product_list = [product for order in month_orders for product in order.products.all()]
