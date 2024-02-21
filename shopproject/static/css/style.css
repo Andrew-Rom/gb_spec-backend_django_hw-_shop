@@ -115,9 +115,18 @@ form {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   justify-content: center;
-  align-items: center;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background-color: #e6e6e6;
+  box-shadow:0 0 40px -10px #000
+}
+
+.form_block {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
 .task_solution {
@@ -126,7 +135,9 @@ form {
 }
 
 .client_orders,
-.client_products {
+.client_products,
+.change_product,
+.add_product {
   border: 1px solid black;
   border-radius: 10px;
   padding: 10px;
@@ -139,14 +150,16 @@ form {
 }
 
 .client_orders__input,
-.client_products__input {
+.client_products__input,
+.change_product__input {
    padding: 5px;
    font-size: 15px;
 }
 
 .btn,
 .client_orders__button,
-.client_products__button {
+.client_products__button,
+.change_product__button {
   border: 1px solid grey;
   border-radius: 15px;
   padding: 1rem 2rem;
@@ -161,7 +174,8 @@ form {
 
 .btn:hover,
 .client_orders__button:hover,
-.client_products__button:hover {
+.client_products__button:hover,
+.change_product__button:hover {
   color: grey;
   background-color: white;
 }
@@ -181,4 +195,39 @@ form {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.popUp {
+    overflow-y: scroll;
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: linear, 0.5s;
+    opacity: 0;
+    }
+
+.popUp-content {
+    margin-top: calc(100vh / 3);
+    margin-right: auto;
+    margin-left: auto;
+    width: 400px;
+    padding: 0.5rem;
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    border-radius: 10px;
+    background-color: #88cf88;
+}
+
+.show-popUp {
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.5s ease-out;
 }

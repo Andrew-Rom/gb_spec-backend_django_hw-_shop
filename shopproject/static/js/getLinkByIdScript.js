@@ -1,5 +1,5 @@
-const inputOrderEl = document.querySelector(".client_orders__input");
-const btnOrderEl = document.querySelector(".client_orders__button");
+const inputOrderEl = document?.querySelector(".client_orders__input");
+const btnOrderEl = document?.querySelector(".client_orders__button");
 
 function getLinkToOrderList() {
   try {
@@ -14,11 +14,11 @@ function getLinkToOrderList() {
   }
 }
 
-inputOrderEl.addEventListener("change", getLinkToOrderList)
+inputOrderEl?.addEventListener("change", getLinkToOrderList)
 
 
-const inputProdEl = document.querySelector(".client_products__input");
-const btnProdEl = document.querySelector(".client_products__button");
+const inputProdEl = document?.querySelector(".client_products__input");
+const btnProdEl = document?.querySelector(".client_products__button");
 
 function getLinkToProductList() {
   try {
@@ -33,4 +33,23 @@ function getLinkToProductList() {
   }
 }
 
-inputProdEl.addEventListener("change", getLinkToProductList)
+inputProdEl?.addEventListener("change", getLinkToProductList)
+
+
+const inputChangeProdEl = document?.querySelector(".change_product__input");
+const btnChangeProdEl = document?.querySelector(".change_product__button");
+
+function getLinkToProduct() {
+  try {
+    if (inputChangeProdEl.value.length === 0
+        || Number.isNaN(Number(inputChangeProdEl.value))
+        || Number(inputChangeProdEl.value) <= 0) {
+      throw new Error("Некорректный идентификатор");
+    }
+    btnChangeProdEl.href = `/product/${parseInt(inputChangeProdEl.value)}/change`
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+inputChangeProdEl?.addEventListener("change", getLinkToProduct)

@@ -1,10 +1,10 @@
 from datetime import timedelta, date
-from sys import stdout
 
 from django.shortcuts import render
 import logging
 
-from myshopapp.models import Client, Order
+from myshopapp.forms import ProductForm
+from myshopapp.models import Client, Order, Product
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +26,11 @@ def index(request):
 @log_this
 def task3(request):
     return render(request, "myshopapp/task3.html")
+
+
+@log_this
+def task4(request):
+    return render(request, "myshopapp/task4.html")
 
 
 @log_this
@@ -51,16 +56,13 @@ def client_products(request, client_id: int):
 
     client = Client.objects.filter(pk=client_id).first()
 
-    week_orders = (Order.objects.filter(client__pk=client_id)
-                   & Order.objects.filter(order_date__range=(week, today)).order_by("-order_date"))
-    month_orders = (Order.objects.filter(client__pk=client_id)
-                    & Order.objects.filter(order_date__range=(month, week)).order_by("-order_date"))
-    year_orders = (Order.objects.filter(client__pk=client_id)
-                   & Order.objects.filter(order_date__range=(year, month)).order_by("-order_date"))
+    week_orders = Order.objects.filter(client=client, order_date__gte=week)
+    month_orders = Order.objects.filter(client=client, order_date__gte=month)
+    year_orders = Order.objects.filter(client=client, order_date__gte=year)
 
-    week_product_list = [product for order in week_orders for product in order.products.all()]
-    month_product_list = [product for order in month_orders for product in order.products.all()]
-    year_product_list = [product for order in year_orders for product in order.products.all()]
+    week_product_list = {product for order in week_orders for product in order.products.all()}
+    month_product_list = {product for order in month_orders for product in order.products.all()}
+    year_product_list = {product for order in year_orders for product in order.products.all()}
 
     content = {"client": client,
                "week_product_list": week_product_list,
@@ -68,3 +70,63 @@ def client_products(request, client_id: int):
                "year_product_list": year_product_list}
 
     return render(request, "myshopapp/client_products.html", content)
+
+
+@log_this
+def product_add(request):
+    result = False
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            price = form.cleaned_data['price']
+            quantity = form.cleaned_data['quantity']
+            image = form.cleaned_data['image']
+            product = Product(title=title,
+                              description=description,
+                              price=price,
+                              quantity=quantity,
+                              image=image)
+            product.save()
+            result = True
+    else:
+        result = False
+        form = ProductForm()
+    return render(request, 'myshopapp/product_add.html',
+                  {'form': form, 'result': result})
+
+
+@log_this
+def product_change(request, product_id: int):
+    result = False
+    product = Product.objects.filter(pk=product_id).first()
+    product_img = None
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            result = True
+            product.title = form.cleaned_data['title']
+            product.description = form.cleaned_data['description']
+            product.price = form.cleaned_data['price']
+            product.quantity = form.cleaned_data['quantity']
+            if form.cleaned_data['image'] is not None:
+                product.image = form.cleaned_data['image']
+            product.save()
+    else:
+        result = False
+        if product:
+            data = {'title': product.title,
+                    'description': product.description,
+                    'price': product.price,
+                    'quantity': product.quantity}
+            if product.image is not None:
+                product_img = product.image
+            form = ProductForm(data)
+        else:
+            form = ProductForm()
+    return render(request, 'myshopapp/product_change.html',
+                  {'form': form,
+                   'result': result,
+                   'product_img': product_img,
+                   'product': product})
