@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+My Shop - change product
+{% endblock %}
+
+{% block my_script %}
+<script type="text/javascript" src="{% static 'js/popup.js' %}" defer></script>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+{% if product != null %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form_block">
+            {{ form.title.label }}
+            {{ form.title }}
+        </div>
+        <div class="form_block">
+            {{ form.description.label }}
+            {{ form.description }}
+        </div>
+        <div class="form_block">
+            {{ form.price.label }}
+            {{ form.price }}
+        </div>
+        <div class="form_block">
+            {{ form.quantity.label }}
+            {{ form.quantity }}
+        </div>
+        <div class="form_block">
+            {% if product_img.url != null %}
+                <img src="{{ product_img.url }}" width="100px" alt="">
+            {% else %}
+                {{ form.image.label }}
+            {% endif %}
+            {{ form.image }}
+        </div>
+        <button class="btn open-popUp" type="submit">Загрузить</button>
+    </form>
+    {% if result == True %}
+        <div class="popUp show-popUp">
+            <div class="popUp-content">
+                <p>Товар успешно изменен</p>
+                <button class="btn close-popUp">ОК</button>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    Товар с указанным ID не найден
+    <a href="/task4/" class="btn">Назад</a>
+{% endif %}
+{% endblock %}

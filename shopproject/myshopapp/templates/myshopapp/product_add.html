@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+My Shop - add new product
+{% endblock %}
+
+{% block my_script %}
+<script type="text/javascript" src="{% static 'js/textFieldCounter.js' %}" defer></script>
+<script type="text/javascript" src="{% static 'js/popup.js' %}" defer></script>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form_block">
+        {{ form.title.label }}
+        {{ form.title }}
+        <div class="title-field__counter"></div>
+    </div>
+    <div class="form_block">
+        {{ form.description.label }}
+        {{ form.description }}
+        <div class="description-field__counter"></div>
+    </div>
+    <div class="form_block">
+        {{ form.price.label }}
+        {{ form.price }}
+    </div>
+    <div class="form_block">
+        {{ form.quantity.label }}
+        {{ form.quantity }}
+    </div>
+    <div class="form_block">
+        {{ form.image.label }}
+        {{ form.image }}
+    </div>
+    <button class="btn open-popUp" type="submit">Загрузить</button>
+</form>
+{% if result == True %}
+<div class="popUp show-popUp">
+    <div class="popUp-content">
+        <p>Новый товар успешно добавлен в базу данных</p>
+        <button class="btn close-popUp">ОК</button>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

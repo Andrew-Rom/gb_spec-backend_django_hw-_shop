@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+My Shop - lesson 4
+{% endblock %}
+
+{% block my_script %}
+<script type="text/javascript" src="{% static 'js/getLinkByIdScript.js' %}" defer></script>
+{% endblock %}
+
+{% block header %}
+Урок 4. Работа с представлениями и шаблонами
+{% endblock %}
+
+{% block content %}
+<p class="subtitle">Задание</p>
+<div class="content-box">
+    <p>Создайте форму для редактирования товаров в базе данных.</p>
+    <p>Измените модель продукта, добавьте поле для хранения фотографии продукта.
+        Создайте форму, которая позволит сохранять фото.</p>
+</div>
+<p class="subtitle">Решение</p>
+<div class="task_solution">
+    <div class="change_product">
+        <h5>Редактирование товаров в базе данных</h5>
+        <label class="change_product__label" for="change_product__input">Введите идентификатор (ID) товара:</label>
+        <input class="change_product__input" name="change_product__input" id="change_product__input"></input>
+        <a href="" class="change_product__button">Найти товар</a>
+    </div>
+    <div class="add_product">
+        <h5>Добавление (с изображением) товара в базу данных</h5>
+        <a href="/product/add" class="btn">Добавить новый товар в базу данных</a>
+    </div>
+</div>
+{% endblock %}
