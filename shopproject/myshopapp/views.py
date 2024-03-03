@@ -54,7 +54,7 @@ def client_products(request, client_id: int):
     month = today - timedelta(30)
     year = today - timedelta(365)
 
-    client = Client.objects.get(pk=client_id).
+    client = Client.objects.filter(pk=client_id).first()
 
     week_orders = Order.objects.filter(client=client, order_date__gte=week)
     month_orders = Order.objects.filter(client=client, order_date__gte=month)
